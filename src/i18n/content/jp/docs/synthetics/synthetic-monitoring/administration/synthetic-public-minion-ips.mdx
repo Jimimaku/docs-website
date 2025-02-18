@@ -5,6 +5,7 @@ tags:
   - Synthetic monitoring
   - Administration
 metaDescription: 'Ensure New Relic can monitor your services by adding synthetic monitoring''s IPs and DNS names to your allow list, based on a JSON file.'
+freshnessValidatedDate: never
 translationType: human
 ---
 
@@ -13,14 +14,13 @@ New Relicは、パブリックミニオンを使用して[Syntheticモニター]
 このため、ファイアウォール経由でSyntheticsネットワークリクエストのやり取りが可能であることを確認してください。ミニオンIPアドレスはJSON形式で公開されているため、読み込みや解析を簡単に行うことができます。
 
 <Callout variant="important">
-  許可リストまたは関連する設定には、[IPとIP範囲リスト](#dynamic-ip-addresses)の両方が含まれていることを確認してください。リクエストはどちらの環境からも送信できます。IPのみ、DNS名のみ、IPおよびDNS名リストファイルに含まれるIPは、リスト設定を容易にするために、/32アドレスとしてIP範囲リストに追加されました。**これらの /32アドレスは新しいアドレスではありません。**
+  許可リストまたは関連する設定には、[IP範囲リスト](#dynamic-ip-addresses)のすべての範囲が含まれていることを確認してください。リクエストはどちらの環境からも送信できます。
 </Callout>
 
-**手順（オプション）**：
+<DNT>**Optional steps**</DNT>：
 
 * これらのファイルに基づいてお客様の許可リストのルールを自動化できます。
-* [標準ヘッダー](/docs/synthetics/new-relic-synthetics/administration/identify-synthetics-requests-your-app)を使用するか、[ping / シンプルなブラウザモニター](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors/#simple)、[スクリプト化されたAPIモニター](/docs/synthetics/synthetic-monitoring/scripting-monitors/write-synthetic-api-tests/#request-options)、または[スクリプト化されたブラウザモニター](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetic-scripted-browser-reference-monitor-versions-chrome-100#structure)にカスタムヘッダーを追加することで、Syntheticモニターリクエストを識別できます。
-* S3 URLパスでは、`production`は米国ベースのアカウントを表し、`eu`は[EUベースのアカウント](/docs/using-new-relic/welcome-new-relic/get-started/our-eu-us-region-data-centers)を表します。
+* [標準ヘッダー](/docs/synthetics/new-relic-synthetics/administration/identify-synthetics-requests-your-app)を使用するか、[pingまたはシンプルなブラウザモニター](/docs/synthetics/synthetic-monitoring/using-monitors/add-edit-monitors/#simple)、[スクリプト化されたAPIモニター](/docs/synthetics/synthetic-monitoring/scripting-monitors/write-synthetic-api-tests/#request-options)、または[スクリプト化されたブラウザモニター](/docs/synthetics/synthetic-monitoring/scripting-monitors/synthetic-scripted-browser-reference-monitor-versions-chrome-100#structure)にカスタムヘッダーを追加することで、Syntheticモニターのリクエストを識別できます。
 
 ## IPアドレスは個人データではありません [#not-personal-data]
 
@@ -28,45 +28,19 @@ New Relicは、パブリックミニオンを使用して[Syntheticモニター]
 
 ## IPアドレスのデイリーJSONリスト [#dynamic-ip-addresses]
 
-リリースされた場所のIPアドレスは変更の対象です。変更が必要な場合、変更の前に、電子メールで事前にお客様にお知らせするよう努めます。また、[Explorers Hub](https://discuss.newrelic.com/)でアップデートをチェックすることもできます。
-
-<Callout variant="important">
-  2022年10月3日に[IPアドレスの範囲が追加](/docs/synthetics/synthetic-monitoring/administration/new-synthetic-public-minion-ips/#us_new_ip)されます。一部のお客様は、このトラフィックを許可するために、ファイアウォール、ボット検出、または関連する設定を更新する必要があります。これらはIP範囲リストに追加されていますが、2022年10月3日まで使用されません。
-</Callout>
+リリースされた場所の IP アドレスは変更される可能性があります。変更が必要な場合は、変更前に事前に電子メールでお客様に通知するよう努めます。[サポート フォーラム](https://discuss.newrelic.com/) で更新を確認することもできます。リストされている IP 範囲は、New Relic で使用するために予約されており、他のユーザーが使用することはできません。
 
 <table style={{ width: "300px" }}>
   <thead>
     <tr>
       <th>
-        米国アカウント
+        EUおよび米国のアカウント
       </th>
     </tr>
 
     <tr>
       <td>
-        * [IPのみのリスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/production/ip.json)
-        * [DNS名のみのリスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/production/dnsname.json)
-        * [IPとDNS名のリスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/production/ip-dnsname.json)
         * [IP範囲リスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/production/ip-ranges.json)
-      </td>
-    </tr>
-  </thead>
-</table>
-
-<table style={{ width: "300px" }}>
-  <thead>
-    <tr>
-      <th>
-        EUアカウント
-      </th>
-    </tr>
-
-    <tr>
-      <td>
-        * [IPのみのリスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/eu/ip.json)
-        * [DNS名のみのリスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/eu/dnsname.json)
-        * [IPとDNS名のリスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/eu/ip-dnsname.json)
-        * [IP範囲リスト](https://s3.amazonaws.com/nr-synthetics-assets/nat-ip-dnsname/eu/ip-ranges.json)
       </td>
     </tr>
   </thead>
@@ -94,201 +68,201 @@ NerdGraphを使用していますか？ [NerdGraph合成ドキュメント](/doc
   <tbody>
     <tr>
       <td>
-        AWS_AP_EAST_1
+        AWS\_AP\_EAST\_1
       </td>
 
       <td>
-        "Hong Kong, HK"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_AP_SOUTH_1
-      </td>
-
-      <td>
-        "Mumbai, IN"
+        &quot;Hong Kong, HK&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_AP_SOUTHEAST_1
+        AWS\_AP\_SOUTH\_1
       </td>
 
       <td>
-        "Singapore, SG"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_AP_NORTHEAST_2
-      </td>
-
-      <td>
-        "Seoul, KR"
+        &quot;Mumbai, IN&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_AP_NORTHEAST_1
+        AWS\_AP\_SOUTHEAST\_1
       </td>
 
       <td>
-        "Tokyo, JP"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_AP_SOUTHEAST_2
-      </td>
-
-      <td>
-        "Sydney, AU"
+        &quot;Singapore, SG&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_US_WEST_1
+        AWS\_AP\_NORTHEAST\_2
       </td>
 
       <td>
-        "San Francisco, CA, USA"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_US_WEST_2
-      </td>
-
-      <td>
-        "Portland, OR, USA"
+        &quot;Seoul, KR&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_US_EAST_2
+        AWS\_AP\_NORTHEAST\_1
       </td>
 
       <td>
-        "Columbus, OH, USA"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_US_EAST_1
-      </td>
-
-      <td>
-        "Washington, DC, USA"
+        &quot;Tokyo, JP&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_CA_CENTRAL_1
+        AWS\_AP\_SOUTHEAST\_2
       </td>
 
       <td>
-        "Montreal, Québec, CA"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_SA_EAST_1
-      </td>
-
-      <td>
-        "São Paulo, BR"
+        &quot;Sydney, AU&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_EU_WEST_1
+        AWS\_US\_WEST\_1
       </td>
 
       <td>
-        "Dublin, IE"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_EU_WEST_2
-      </td>
-
-      <td>
-        "London, England, UK"
+        &quot;San Francisco, CA, USA&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_EU_WEST_3
+        AWS\_US\_WEST\_2
       </td>
 
       <td>
-        "Paris, FR"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_EU_CENTRAL_1
-      </td>
-
-      <td>
-        "Frankfurt, DE"
+        &quot;Portland, OR, USA&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_EU_NORTH_1
+        AWS\_US\_EAST\_2
       </td>
 
       <td>
-        "Stockholm, SE"
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        AWS_EU_SOUTH_1
-      </td>
-
-      <td>
-        "Milan, IT"
+        &quot;Columbus, OH, USA&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_ME_SOUTH_1
+        AWS\_US\_EAST\_1
       </td>
 
       <td>
-        "Manama, BH"
+        &quot;Washington, DC, USA&quot;
       </td>
     </tr>
 
     <tr>
       <td>
-        AWS_AF_SOUTH_1
+        AWS\_CA\_CENTRAL\_1
       </td>
 
       <td>
-        "Cape Town, ZA"
+        &quot;Montreal, Québec, CA&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_SA\_EAST\_1
+      </td>
+
+      <td>
+        &quot;São Paulo, BR&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_EU\_WEST\_1
+      </td>
+
+      <td>
+        &quot;Dublin, IE&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_EU\_WEST\_2
+      </td>
+
+      <td>
+        &quot;London, England, UK&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_EU\_WEST\_3
+      </td>
+
+      <td>
+        &quot;Paris, FR&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_EU\_CENTRAL\_1
+      </td>
+
+      <td>
+        &quot;Frankfurt, DE&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_EU\_NORTH\_1
+      </td>
+
+      <td>
+        &quot;Stockholm, SE&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_EU\_SOUTH\_1
+      </td>
+
+      <td>
+        &quot;Milan, IT&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_ME\_SOUTH\_1
+      </td>
+
+      <td>
+        &quot;Manama, BH&quot;
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        AWS\_AF\_SOUTH\_1
+      </td>
+
+      <td>
+        &quot;Cape Town, ZA&quot;
       </td>
     </tr>
   </tbody>

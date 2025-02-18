@@ -5,6 +5,7 @@ tags:
   - Amazon integrations
   - AWS integrations list
 metaDescription: 'New Relic''s AWS Kinesis Data Analytics monitoring integration: what data it reports, and how to enable it.'
+freshnessValidatedDate: never
 translationType: machine
 ---
 
@@ -12,11 +13,11 @@ translationType: machine
   [AWS CloudWatch Metric Streams統合](/docs/infrastructure/amazon-integrations/aws-integrations-list/aws-metric-stream/)を有効にして、カスタムネームスペースを含むAWSサービスからのすべてのCloudWatchメトリクスをモニターします。個別の統合は、もはや推奨されるオプションではありません。
 </Callout>
 
-[当社のインフラ監視統合](/docs/infrastructure/integrations-getting-started/getting-started/introduction-infrastructure-integrations) には、AWS Kinesis Data Analytics のデータを当社製品に報告するための統合があります。この統合を有効にする方法と、どのようなデータを収集するのかについては、こちらをご覧ください。
+当社の[インフラストラクチャモニタリング統合には、](/docs/infrastructure/introduction-infra-monitoring) AWS Kinesis Data Analytics データを当社製品に報告するための統合が含まれます。 インテグレーションを有効にする方法とインテグレーションが収集するデータについて詳しくは、以下をお読みください。
 
 ## 統合をアクティブ化する [#activate]
 
-このインテグレーションを有効にするには、標準手順に従い、[AWSサービスをInfrastructureに接続します](/docs/infrastructure/infrastructure-integrations/getting-started/connect-aws-integrations-infrastructure)。
+この統合を有効にするには、標準の手順に従って[AWSサービスをNewRelicに接続](/docs/infrastructure/infrastructure-integrations/getting-started/connect-aws-integrations-infrastructure)します。
 
 ## 構成とポーリング [#polling]
 
@@ -29,7 +30,7 @@ translationType: machine
 
 ## データを見つけて使用する [#find-data]
 
-Infrastructure で統合データを見つけるには、 **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**に移動し、統合を選択します。
+インフラストラクチャUIでインテグレーション データを検索するには、<DNT>**[one.newrelic.com &gt; All capabilities](https://one.newrelic.com/all-capabilities) &amp;gt; Infrastructure &amp;gt; AWS**</DNT> に移動してインテグレーションを選択します。
 
 データは、以下の [イベントタイプ](/docs/data-apis/understand-data/new-relic-data-types/#event-data) に添付されます。
 
@@ -715,7 +716,7 @@ Infrastructure で統合データを見つけるには、 **[one.newrelic.com](h
       <td>
         現在使用されているKinesis Processing Unit (KPU)の数です。
 
-        **既知の問題**: この指標は他の指標に比べてラグが長いため、場合によっては表示されないことがある
+        <DNT>**Known issue**</DNT>: このメトリクスは他のメトリクスよりも遅延が長いため、表示されない場合もあります。
       </td>
     </tr>
   </tbody>

@@ -1,3 +1,4 @@
+const { getTitle } = require('../../src/utils/releaseNotes');
 const hasOwnProperty = (obj, key) =>
   Object.prototype.hasOwnProperty.call(obj, key);
 
@@ -16,6 +17,7 @@ exports.createSchemaCustomization = ({ actions }) => {
       id: ID!
       title(locale: String = "en"): String!
       icon: String
+      label: String
       url: String
       pages: [NavItem!]!
     }
@@ -135,8 +137,8 @@ const createReleaseNotesNav = async ({ createNodeId, nodeModel }) => {
           },
         },
         sort: {
-          fields: ['frontmatter.releaseDate'],
-          order: ['DESC'],
+          fields: ['frontmatter.releaseDate', 'slug'],
+          order: ['DESC', 'DESC'],
         },
       },
     }),
@@ -168,17 +170,11 @@ const createReleaseNotesNav = async ({ createNodeId, nodeModel }) => {
     );
 
   const formatReleaseNotePosts = (posts) =>
-    posts.map((post) => {
-      const derivedTitle = post.frontmatter.version
-        ? `${post.frontmatter.subject} v${post.frontmatter.version}`
-        : post.frontmatter.subject;
-
-      return {
-        title: post.frontmatter.title ? post.frontmatter.title : derivedTitle,
-        url: post.fields.slug,
-        pages: [],
-      };
-    });
+    posts.map((post) => ({
+      title: getTitle(post.frontmatter),
+      url: post.fields.slug,
+      pages: [],
+    }));
 
   const filterBySubject = (subject, posts) =>
     posts.filter((post) => post.frontmatter.subject === subject);

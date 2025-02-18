@@ -5,27 +5,26 @@ tags:
   - Synthetic monitoring
   - Pages
 metaDescription: 'Use SLA reports to view summary performance metrics across all your monitors, and to compare your current performance to historical metrics.'
+freshnessValidatedDate: never
 translationType: machine
 ---
-
-import syntheticSLAReport from 'images/synthetic_screenshot-full_SLA-report.png'
 
 SLAレポートを使用して、時間または複数のモニター間のサマリー・パフォーマンス・メトリクスを表示します。日次、週次、月次のレポートで、現在のパフォーマンスを過去の指標と比較することができます。
 
 ## シンセティックモニタリングのSLAレポートの表示 [#viewing]
 
-アカウント全体の SLA レポートを表示するには: **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Synthetic monitoring > SLA Report**に移動します。必要に応じて \[**毎日]** 、 **\[毎週**] 、または \[**毎月**] を選択して、日、週、または月ごとに集計されたレポートから選択します。
+アカウント全体の SLA レポートを表示するには: **[one.newrelic.com > Synthetic monitoring > SLA Report](https://one.newrelic.com/synthetics-nerdlets/global-sla)**に移動します。 必要に応じて \[毎日] 、 \[毎週] 、または **\[毎月**] を選択して、 **日**、 **週** 、または月ごとに集計されたレポートから選択します。
 
-個々のモニターの SLA レポートを表示することもできます**[。one.newrelic.com](https://one.newrelic.com/all-capabilities) > 合成モニタリング > (モニターを選択) > SLA**に移動します。
+個々のモニターの SLA レポートを表示することもできます: **[one.newrelic.com > Synthetic monitoring > SLA](https://one.newrelic.com/synthetics-nerdlets/global-sla)**に移動します。
 
 <img
   title="screen-synthetics-sla-report.png"
   alt="screen-synthetics-sla-report.png"
-  src={syntheticSLAReport}
+  src="/images/synthetic_screenshot-full_SLA-report.webp"
 />
 
 <figcaption>
-  **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Synthetic monitoring >SLA Report** : SLA レポートを使用して、モニターのパフォーマンスを経時的に把握します。
+  **[one.newrelic.com > Synthetic monitoring > SLA](https://one.newrelic.com/synthetics-nerdlets/global-sla)**: SLA レポートを使用して、モニターのパフォーマンスを経時的に把握します。
 </figcaption>
 
 ## SLAレポートのメトリクスを理解する [#understanding]
@@ -89,16 +88,6 @@ SLAレポートは、以下の機能をサポートしています。
         日次、週次、月次の集計は、該当するタブを選択してください。
       </td>
     </tr>
-
-    <tr>
-      <td>
-        報告書の公開
-      </td>
-
-      <td>
-        **Public SLA** の設定を **ON** に変更し、認証されていないユーザーがレポートを閲覧できるようにします。 **Share Report** を選択して、共有するパブリックURLを取得します。
-      </td>
-    </tr>
   </tbody>
 </table>
 
@@ -106,10 +95,10 @@ SLAレポートは、以下の機能をサポートしています。
 
 SLA レポートの値は、利用可能な合成監視データに対する NRQL クエリから生成されます。これらの値を簡単に再現し、ニーズに合わせてクエリーを変更することができます。
 
-このクエリは、平均継続時間、apdex、およびアップタイムを返します。 <var>変数</var> 以下で強調して説明しているものに、あなたの値を代入してください。
+このクエリは、平均期間、apdex、および稼働時間を返します。以下で強調表示および説明されている変数を実際の値に置き換えます。
 
-```
-SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), WHERE result='SUCCESS') FROM SyntheticCheck FACET <var>timeperiod</var>
+```sql
+SELECT average(duration), apdex(duration, t:), percentage(count(*), WHERE result='SUCCESS') FROM SyntheticCheck FACET timeperiod
 ```
 
 <table>
@@ -128,7 +117,7 @@ SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), W
   <tbody>
     <tr>
       <td>
-        **t:**
+        `t:`
       </td>
 
       <td>
@@ -138,7 +127,7 @@ SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), W
 
     <tr>
       <td>
-        **タイムスタンプ**
+        `timeperiod`
       </td>
 
       <td>
@@ -148,28 +137,31 @@ SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), W
   </tbody>
 </table>
 
-[NRQL クエリ](/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language) のデフォルトは、最後の 1 時間のデータに対してクエリを実行します。データの範囲を広げるためには、クエリの最後に [SINCE 句](/docs/insights/new-relic-insights/using-new-relic-query-language/nrql-reference#sel-since) を含める必要があります。
+[NRQL クエリは、](/docs/query-your-data/nrql-new-relic-query-language/get-started/introduction-nrql-new-relics-query-language) デフォルトで過去 1 時間のデータに対してクエリを実行します。データの範囲を広げるには、クエリの最後に [`SINCE` 句](/docs/insights/new-relic-insights/using-new-relic-query-language/nrql-reference#sel-since) を含める必要があります。
 
 **例1: 先週の日報**
 
 先週の日次レポートを生成するには、 `SINCE 1 week ago`を追加します:
 
-```
-SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), WHERE result='SUCCESS') FROM SyntheticCheck FACET dateOf(timestamp) SINCE 1 week ago
+```sql
+SELECT average(duration), apdex(duration, t:7), percentage(count(*), WHERE result='SUCCESS') 
+FROM SyntheticCheck FACET dateOf(timestamp) SINCE 1 week ago
 ```
 
 **例2：特定のモニターのレポート**
 
 結果を特定のモニターに限定するには、以下のクエリを編集して特定のモニター名を含めることができます。
 
-```
-SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), WHERE result='SUCCESS') FROM SyntheticCheck FACET <var>timeperiod</var> WHERE monitorName = '<var>mymonitorname</var>'
+```sql
+SELECT average(duration), apdex(duration, t:7), percentage(count(*), WHERE result='SUCCESS') 
+FROM SyntheticCheck FACET dateOf(timestamp) WHERE monitorName = 'mymonitor1'
 ```
 
 **例3：マルチモニター用のレポート**
 
 結果をモニターの集合体にスコープすること。
 
-```
-SELECT average(duration), apdex(duration, <var>t:</var>), percentage(count(*), WHERE result='SUCCESS') FROM SyntheticCheck FACET <var>timeperiod</var> WHERE monitorName IN ('<var>mymonitor1</var>', '<var>mymonitor2</var>', '<var>mymonitor3</var>')
+```sql
+SELECT average(duration), apdex(duration, t:7), percentage(count(*), WHERE result='SUCCESS') 
+FROM SyntheticCheck FACET dateOf(timestamp) WHERE monitorName IN ('mymonitor1', 'mymonitor2', 'mymonitor3')
 ```

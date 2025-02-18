@@ -5,6 +5,7 @@ tags:
   - Amazon integrations
   - AWS integrations list
 metaDescription: 'New Relic''s AWS Lambda monitoring integration: How to activate it and what data it reports.'
+freshnessValidatedDate: never
 translationType: machine
 ---
 
@@ -14,11 +15,11 @@ translationType: machine
 
 [New Relic infrastructure integrations](/docs/integrations/new-relic-integrations/getting-started/introduction-infrastructure-integrations) には、AWS Lambda のデータを New Relic にレポートするためのインテグレーションが含まれています。このドキュメントでは、この統合を有効にする方法と、レポート可能なデータについて説明します。
 
-**また、より詳細なLambdaのモニタリング機能も提供しています** 。詳しくは、 [New Relic Serverless monitoring for AWS Lambda](/docs/serverless-function-monitoring/aws-lambda-monitoring/get-started/introduction-new-relic-monitoring-aws-lambda) をご覧ください。
+より詳細な Lambda 監視機能も提供しています。 詳細については、[New Relic の サーバーレス監視」AWS Lambda](/docs/serverless-function-monitoring/aws-lambda-monitoring/get-started/introduction-new-relic-monitoring-aws-lambda) を参照してください。
 
 ## 特徴 [#features]
 
-[AWS Lambda](https://aws.amazon.com/lambda/) は、バックエンドのウェブ開発者向けのゼロアドミニストレーションのコンピュートプラットフォームです。AWSクラウド上であなたに代わってコードを実行し、きめ細かな料金体系を提供します。
+[AWS Lambda は、](https://aws.amazon.com/lambda/) バックエンド Web 開発者向けのゼロ管理コンピューティング プラットフォームです。AWS クラウドでコードを実行し、きめの細かい料金体系を提供します。
 
 Lambda関数は、特定のイベントが発生したときに実行されるカスタムコードの一部です。特定のLambda関数を起動するイベントを識別するために、AWS Lambdaのユーザーはイベントソースマッピングを定義します。オプションとして、エイリアスを使用してLambda関数の特定のバージョンを指すことができます。
 
@@ -43,7 +44,7 @@ NewRelicのAWSLambda統合は、呼び出しカウント、エラーカウント
 
 ## データを見つけて使用する [#find-data]
 
-統合データを見つけるには、 **[one.newrelic.com](https://one.newrelic.com/all-capabilities) > Infrastructure > AWS**に移動し、Lambda 統合リンクのいずれかを選択します。
+インテグレーション データを検索するには、 <DNT>**[one.newrelic.com > All capabilities](https://one.newrelic.com/all-capabilities) &amp;gt; Infrastructure &amp;gt; AWS**</DNT>に移動して、Lambda インテグレーション リンクの 1 つを選択します。
 
 `ServerlessSample`[イベントタイプ](/docs/data-apis/understand-data/new-relic-data-types/#event-data)を使用[してデータをクエリおよび探索](/docs/using-new-relic/data/understand-data/query-new-relic-data)できます。 `provider`の値は`LambdaRegion` 、 `LambdaFunction` 、および`LambdaFunctionAlias`です。
 
@@ -162,11 +163,31 @@ Lambda関数とエイリアスデータは`ServerlessSample`[イベントタイ�
 
     <tr>
       <td>
+        `streamedOutboundBytes` (レスポンスストリーミングモードのみ)
+      </td>
+
+      <td>
+        Lambda 関数からストリーミングされたバイト数 (応答ストリーミング モードは関数を設計する必要があります)。
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        `streamedOutboundThroughput` (レスポンスストリーミングモードのみ)
+      </td>
+
+      <td>
+        Lambda 関数のスループット (バイト/秒)。
+      </td>
+    </tr>
+
+    <tr>
+      <td>
         `throttles`
       </td>
 
       <td>
-        呼び出し率が顧客の同時接続制限を超えたためにスロットルされたLambda関数の呼び出し試行回数を測定します（エラーコード429）。失敗した呼び出しは、成功した再試行のトリガーとなる場合があります。
+        顧客の同時制限 (エラーコード 429) を超えた呼び出しレートが原因で抑制された Lambda 関数呼び出し試行の数を測定します。呼び出しが失敗すると、成功する再試行がトリガーされる場合があります。
       </td>
     </tr>
   </tbody>

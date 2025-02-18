@@ -3,24 +3,31 @@ path: /docs/logs
 pages:
   - title: Get started with log management
     path: /docs/logs/get-started/get-started-log-management
+  - title: Manage large amounts of logs
+    label: Tutorial
+    path: /docs/tutorial-large-logs/get-started-managing-large-logs
+  - title: Logging best practices
+    path: /docs/logs/get-started/logging-best-practices
   - title: Log management and security
     path: /docs/logs/get-started/new-relics-log-management-security-privacy
+  - title: Live archives
+    pages:
+      - title: Long-term data storage
+        path: /docs/logs/get-started/live-archives
+      - title: Live archives billing
+        path: /docs/logs/get-started/live-archives-billing
   - title: Forward logs
     pages:
       - title: Enable log management
         path: /docs/logs/forward-logs/enable-log-management-new-relic
       - title: Infrastructure agent logs
         path: /docs/logs/forward-logs/forward-your-logs-using-infrastructure-agent
+      - title: AWS services
+        path: /install/aws-logs                        
       - title: Akamai
-        path: /docs/logs/forward-logs/enable-log-management-new-relic#forward-other
-      - title: Amazon Kinesis Data Firehose
-        path: /docs/logs/forward-logs/stream-logs-using-kinesis-data-firehose
-      - title: AWS FireLens plugin
-        path: /docs/logs/forward-logs/aws-firelens-plugin-log-forwarding
+        path: /docs/logs/forward-logs/enable-log-management-new-relic#forward-other            
       - title: AWS Lambda for Amazon S3
         path: /docs/logs/forward-logs/aws-lambda-sending-logs-s3
-      - title: AWS Lambda for CloudWatch logs
-        path: /docs/logs/forward-logs/aws-lambda-sending-cloudwatch-logs
       - title: CircleCI logs
         path: /docs/logs/forward-logs/circleci-logs
       - title: CloudFront logs
@@ -37,18 +44,28 @@ pages:
         path: /docs/logs/forward-logs/google-cloud-platform-log-forwarding
       - title: Heroku log drains
         path: /docs/logs/forward-logs/heroku-log-forwarding
+      - title: Kong Gateway
+        path: /docs/logs/forward-logs/kong-gateway
       - title: Kubernetes plugin
         path: /docs/logs/forward-logs/kubernetes-plugin-log-forwarding
       - title: Logstash plugin
         path: /docs/logs/forward-logs/logstash-plugin-log-forwarding
       - title: Microsoft Azure logs ARM templates
         path: /docs/logs/forward-logs/azure-log-forwarding
+      - title: Mux video streaming logs with Kinesis Firehose
+        path: /docs/logs/forward-logs/mux-video-streaming-firehose
       - title: Vector plugin
         path: /docs/logs/forward-logs/vector-output-sink-log-forwarding
+      - title: Vercel integration
+        path: /docs/logs/forward-logs/vercel-integration
   - title: Logs in context
     pages:
       - title: Introduction to logs in context
         path: /docs/logs/logs-context/logs-in-context
+      - title: APM logs in context
+        path: /docs/logs/logs-context/get-started-logs-context
+      - title: Custom tags for application logs
+        path: /docs/logs/logs-context/custom-tags-agent-forwarder-logs
       - title: Manage or disable APM logs
         path: /docs/logs/logs-context/disable-automatic-logging
       - title: "C SDK: logs in context"
@@ -83,17 +100,23 @@ pages:
         path: /docs/logs/ui-data/parsing
       - title: Built-in parsing rules
         path: /docs/logs/ui-data/built-log-parsing-rules
+      - title: Query time parsing rules
+        path: /docs/logs/ui-data/query-time-parsing
       - title: Data partitions
         path: /docs/logs/ui-data/data-partitions
       - title: Log obfuscation
         path: /docs/logs/ui-data/obfuscation-ui
+      - title: Timestamp formats
+        path: /docs/logs/ui-data/timestamp-support
+      - title: Lookup tables
+        path: /docs/logs/ui-data/lookup-tables-ui
       - title: Drop filter rules
         path: /docs/logs/ui-data/drop-data-drop-filter-rules
       - title: Find data in long logs (blobs)
         path: /docs/logs/ui-data/long-logs-blobs
   - title: Log API
     pages:
-      - title: Introduction to the Log API
+      - title: Get started with the Log API
         path: /docs/logs/log-api/introduction-log-api
       - title: Log event data
         path: /docs/logs/log-api/log-event-data
@@ -111,3 +134,17 @@ pages:
         path: /docs/logs/troubleshooting/log-message-truncated
       - title: Show surrounding logs
         path: /docs/logs/troubleshooting/find-issues-cause-or-impact-surrounding-logs
+      - title: Failing to create a Stack
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/stack-creation-fails
+      - title: Logs not appearing from CloudWatch via Lambda
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/logs-not-appearing-from-cloudwatch-lambda
+      - title: Logs not appearing from CloudWatch via Firehose
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/logs-not-appearing-from-cloudwatch-firehose
+      - title: Logs not appearing from S3 via Lambda
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/logs-not-appearing-from-s3-lambda
+      - title: Custom attributes not appearing in logs
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/custom-attributes-not-appearing
+      - title: Failing to delete a Stack
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/stack-deletion-fails
+      - title: Log forwarding limitations
+        path: /docs/logs/troubleshooting/aws-log-integration-issues/log-forwarding-restrictions        

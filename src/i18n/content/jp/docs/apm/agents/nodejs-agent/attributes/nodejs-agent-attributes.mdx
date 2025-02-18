@@ -5,6 +5,7 @@ tags:
   - Nodejs agent
   - Attributes
 metaDescription: 'New Relic Node.js agent: How to include and exclude specific attributes for events and transactions, including their properties and rules.'
+freshnessValidatedDate: never
 translationType: machine
 ---
 
@@ -51,7 +52,7 @@ New Relic [属性](/docs/agents/manage-apm-agents/agent-data/agent-attributes) �
 
     * ブラウザのイベント。使用不可
 
-      **注:** `httpResponseCode`属性 (文字列値) は、エージェント バージョン 7.0.0 で削除されました。代わりに`http.statusCode` (整数値) を使用する必要があります。
+      <DNT>**Note:**</DNT> `httpResponseCode`属性 (文字列値) は、エージェント バージョン 7.0.0 以降で削除されました。 代わりに`http.statusCode` (整数値) を使用する必要があります。
   </Collapser>
 
   <Collapser
@@ -70,14 +71,14 @@ New Relic [属性](/docs/agents/manage-apm-agents/agent-data/agent-attributes) �
 
     * ブラウザのイベント。使用不可
 
-      **注:** `httpResponseMessage`属性 (文字列値) は、エージェント バージョン 7.0.0 で削除されました。代わりに`http.statusText` (文字列値) を使用する必要があります。
+      <DNT>**Note:**</DNT> `httpResponseMessage`属性 (文字列値) は、エージェント バージョン 7.0.0 以降で削除されました。 代わりに`http.statusText` (文字列値) を使用する必要があります。
   </Collapser>
 
   <Collapser
     id="NRaddCustomParameter"
     title="カスタムアトリビュート"
   >
-    Node.js エージェント API への[`addCustomAttribute()`](https://newrelic.github.io/node-newrelic/docs/API.html#addCustomAttribute)呼び出しに追加された属性。この属性のキー名は、メソッドを呼び出すときに指定した内容によって異なります。
+    Node.js エージェント API への[`addCustomAttribute()`](https://newrelic.github.io/node-newrelic/API.html#addCustomAttribute)呼び出しに追加された属性。この属性のキー名は、メソッドを呼び出すときに指定した内容によって異なります。
 
     各デスティネーションのデフォルト設定は
 
@@ -98,7 +99,7 @@ New Relic [属性](/docs/agents/manage-apm-agents/agent-data/agent-attributes) �
     id="NRaddnoticeError"
     title={<><InlineCode>noticeError()</InlineCode> APIコール</>}
   >
-    Node.js エージェント API の[`noticeError()`](https://newrelic.github.io/node-newrelic/docs/API.html#noticeError)呼び出しに追加された属性。この属性のキー名は、メソッドを呼び出すときに指定した内容によって異なります。
+    Node.js エージェント API の[`noticeError()`](https://newrelic.github.io/node-newrelic/API.html#noticeError)呼び出しに追加された属性。この属性のキー名は、メソッドを呼び出すときに指定した内容によって異なります。
 
     各デスティネーションのデフォルト設定は
 
@@ -145,7 +146,7 @@ New Relic [属性](/docs/agents/manage-apm-agents/agent-data/agent-attributes) �
     id="requestparams"
     title="リクエストパラメータ"
   >
-    トランザクションからパラメーターを要求します。Node.js エージェントは、デフォルトではパラメーターをキャプチャしません。`request.parameters.*`エントリを[`attributes.include`](#cfg-attributes-include)に追加すると、すべての GET パラメータをキャプチャできます。または、特定のリクエスト パラメータをリストに追加できます (例: `request.parameters.foo`または`request.parameters.bar` 。POST パラメーターを取得するには、 [`addCustomAttribute()`](https://newrelic.github.io/node-newrelic/docs/API.html#addCustomAttribute) Node.js エージェント API 呼び出しを使用します。
+    トランザクションからパラメーターを要求します。Node.js エージェントは、デフォルトではパラメーターをキャプチャしません。`request.parameters.*`エントリを[`attributes.include`](#cfg-attributes-include)に追加すると、すべての GET パラメータをキャプチャできます。または、特定のリクエスト パラメータをリストに追加できます (例: `request.parameters.foo`または`request.parameters.bar` 。POST パラメーターを取得するには、[`addCustomAttribute()`](https://newrelic.github.io/node-newrelic/API.html#addCustomAttribute) Node.js エージェント API 呼び出しを使用します。
   </Collapser>
 </CollapserGroup>
 
@@ -172,7 +173,7 @@ Node.js エージェントが各送信先に送信する属性の種類をカス
 
   <Collapser
     id="cfg-attributes-enabled"
-    title={<><var>デスティネーション</var>.attributes.enabled</>}
+    title={<>destination.attributes.enabled</>}
   >
     <table>
       <thead>
@@ -269,7 +270,7 @@ Node.js エージェントが各送信先に送信する属性の種類をカス
 
   <Collapser
     id="cfg-attributes-include"
-    title={<><var>デスティネーション</var>.attributes.include</>}
+    title={<>宛先.属性.インクルード</>}
   >
     <table>
       <thead>
@@ -366,7 +367,7 @@ Node.js エージェントが各送信先に送信する属性の種類をカス
 
   <Collapser
     id="cfg-error-attributes-enabled"
-    title={<><var>目的地</var>.attributes.exclude</>}
+    title={<>destination.attributes.exclude</>}
   >
     <table>
       <thead>

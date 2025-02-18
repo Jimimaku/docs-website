@@ -3,15 +3,14 @@ addReviewers: true
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers:
-  - bradleycamacho
   - paperclypse
   - rhetoric101
-  - homelessbirds
-  - akristen
-  - x8a
+  - ally-sassman
+  - jeff-colucci
   - nbaenam
-  - jeff-colucci 
-  - a-sassman 
+  - cbehera-newrelic
+  - akristen
+  - adutta-newrelic
 
 # A number of reviewers added to the pull request
 # Set 0 to add all the reviewers (default: 0)

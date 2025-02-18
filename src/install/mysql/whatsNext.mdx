@@ -18,7 +18,11 @@ The MySQL integration collects the following metrics:
       <thead>
         <tr>
           <th style={{ width: "350px" }}>
-            Name
+            Event Attribute Name
+          </th>
+
+          <th>
+            Dimensional Metric Name
           </th>
 
           <th>
@@ -34,13 +38,21 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Boolean. `1` if this server is a replication slave that is connected to a replication master, and both the I/O and SQL threads are running; otherwise, it is `0`. For metrics reported if enabled, see [replication slave metrics](#slave).
+            `mysql.node.cluster.slaveRunning`
+          </td>
+
+          <td>
+            Boolean. `1` if this server is a replication slave that is connected to a replication master, and both the I/O and SQL threads are running; otherwise, it is `0`. For metrics reported if enabled, see [replication slave metrics](#extended-slave-cluster-metrics).
           </td>
         </tr>
 
         <tr>
           <td>
             `db.handlerRollbackPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.handler.rollbackPerSecond`
           </td>
 
           <td>
@@ -54,6 +66,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.pagesData`
+          </td>
+
+          <td>
             Number of pages in the InnoDB buffer pool containing data.
           </td>
         </tr>
@@ -61,6 +77,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.bufferPoolPagesFree`
+          </td>
+
+          <td>
+            `mysql.node.innodb.bufferPool.pagesFree`
           </td>
 
           <td>
@@ -74,6 +94,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.pagesTotal`
+          </td>
+
+          <td>
             Total number of pages of the InnoDB buffer pool.
           </td>
         </tr>
@@ -81,6 +105,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.dataReadBytesPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.dataReadBytesPerSecond`
           </td>
 
           <td>
@@ -94,6 +122,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.dataWrittenBytesPerSecond`
+          </td>
+
+          <td>
             Rate at which data is written to InnoDB tables in bytes per second.
           </td>
         </tr>
@@ -101,6 +133,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.logWaitsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.logWaitsPerSecond`
           </td>
 
           <td>
@@ -114,6 +150,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.rowLockCurrentWaits`
+          </td>
+
+          <td>
             Number of row locks currently being waited for by operations on InnoDB tables.
           </td>
         </tr>
@@ -121,6 +161,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.rowLockTimeAvg`
+          </td>
+
+          <td>
+            `mysql.node.innodb.rowLockTimeAvg`
           </td>
 
           <td>
@@ -134,6 +178,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.rowLockWaitsPerSecond`
+          </td>
+
+          <td>
             Number of times operations on InnoDB tables had to wait for a row lock per second.
           </td>
         </tr>
@@ -141,6 +189,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.openedTablesPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.openedTablesPerSecond`
           </td>
 
           <td>
@@ -154,6 +206,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.openFiles`
+          </td>
+
+          <td>
             Number of files that are open. This count includes regular files opened by the server. It does not include other types of files such as sockets or pipes.
           </td>
         </tr>
@@ -161,6 +217,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.openTables`
+          </td>
+
+          <td>
+            `mysql.node.openTables`
           </td>
 
           <td>
@@ -174,7 +234,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Amount of free memory in bytes for the query cache. Not supported in MySQL version 8.0 and higher.
+            `mysql.node.qCache.freeMemoryBytes`
+          </td>
+
+          <td>
+            Amount of free memory in bytes for the query cache. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -184,7 +248,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Percentage of queries that are retrieved from the cache. Not supported in MySQL version 8.0 and higher. 
+            `mysql.node.qCache.hitRatio`
+          </td>
+
+          <td>
+            Percentage of queries that are retrieved from the cache. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -194,7 +262,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Number of noncached queries, not cacheable or not cached due to the `query_cache_type` option, per second. Not supported in MySQL version 8.0 and higher.
+            `mysql.node.qCache.notCachedPerSecond`
+          </td>
+
+          <td>
+            Number of noncached queries (not cacheable, or not cached due to the `query_cache_type setting`) per second. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -204,13 +276,21 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Percentage of query cache memory that is being used.
+            `mysql.node.qCache.utilization`
+          </td>
+
+          <td>
+            Percentage of query cache memory that is being used. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
         <tr>
           <td>
             `db.tablesLocksWaitedPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.tablesLocksWaitedPerSecond`
           </td>
 
           <td>
@@ -224,6 +304,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.net.abortedClientsPerSecond`
+          </td>
+
+          <td>
             Number of connections per second that were aborted because the client died without closing the connection properly.
           </td>
         </tr>
@@ -231,6 +315,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `net.abortedConnectsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.net.abortedConnectsPerSecond`
           </td>
 
           <td>
@@ -244,6 +332,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.net.bytesReceivedPerSecond`
+          </td>
+
+          <td>
             Byte throughput received from all clients, per second.
           </td>
         </tr>
@@ -251,6 +343,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `net.bytesSentPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.net.bytesSentPerSecond`
           </td>
 
           <td>
@@ -264,6 +360,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.net.connectionErrorsMaxConnectionsPerSecond`
+          </td>
+
+          <td>
             Rate per second at which connections were refused because the server `max_connections` limit was reached.
           </td>
         </tr>
@@ -271,6 +371,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `net.connectionsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.net.connectionsPerSecond`
           </td>
 
           <td>
@@ -284,6 +388,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.net.maxUsedConnections`
+          </td>
+
+          <td>
             Maximum number of connections that have been in use simultaneously since the server started.
           </td>
         </tr>
@@ -291,6 +399,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `net.threadsConnected`
+          </td>
+
+          <td>
+            `mysql.node.net.threadsConnected`
           </td>
 
           <td>
@@ -304,6 +416,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.net.threadsRunning`
+          </td>
+
+          <td>
             Number of threads that are not sleeping.
           </td>
         </tr>
@@ -311,6 +427,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.comCommitPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.commitPerSecond`
           </td>
 
           <td>
@@ -324,6 +444,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.deletePerSecond`
+          </td>
+
+          <td>
             Number of DELETE statements executed per second.
           </td>
         </tr>
@@ -331,6 +455,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.comDeleteMultiPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.deleteMultiPerSecond`
           </td>
 
           <td>
@@ -344,6 +472,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.insertPerSecond`
+          </td>
+
+          <td>
             Number of INSERT statements executed per second.
           </td>
         </tr>
@@ -351,6 +483,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.comInsertSelectPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.insertSelectPerSecond`
           </td>
 
           <td>
@@ -364,6 +500,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.replaceSelectPerSecond`
+          </td>
+
+          <td>
             Number of REPLACE SELECT statements executed per second.
           </td>
         </tr>
@@ -371,6 +511,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.comRollbackPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.rollbackPerSecond`
           </td>
 
           <td>
@@ -384,6 +528,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.selectPerSecond`
+          </td>
+
+          <td>
             Number of SELECT statements executed per second.
           </td>
         </tr>
@@ -391,6 +539,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.comUpdateMultiPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.updateMultiPerSecond`
           </td>
 
           <td>
@@ -404,6 +556,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.updatePerSecond`
+          </td>
+
+          <td>
             Number of UPDATE statements executed per second.
           </td>
         </tr>
@@ -411,6 +567,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.preparedStmtCountPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.preparedStmtCountPerSecond`
           </td>
 
           <td>
@@ -424,6 +584,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.queriesPerSecond`
+          </td>
+
+          <td>
             Total number of statements executed by the server per second, including statements executed within stored programs.
           </td>
         </tr>
@@ -434,6 +598,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.query.questionsPerSecond`
+          </td>
+
+          <td>
             Number of statements executed by the server per second, limited to only those sent by clients.
           </td>
         </tr>
@@ -441,6 +609,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `query.slowQueriesPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.query.slowQueriesPerSecond`
           </td>
 
           <td>
@@ -461,7 +633,11 @@ The MySQL integration collects the following metrics:
       <thead>
         <tr>
           <th style={{ width: "350px" }}>
-            Name
+            Event Attribute Name
+          </th>
+
+          <th>
+            Dimensional Metric Name
           </th>
 
           <th>
@@ -477,6 +653,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.createdTmpDiskTablesPerSecond`
+          </td>
+
+          <td>
             Number of internal on-disk temporary tables created per second by the server while executing statements.
           </td>
         </tr>
@@ -484,6 +664,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.createdTmpFilesPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.createdTmpFilesPerSecond`
           </td>
 
           <td>
@@ -497,6 +681,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.createdTmpTablesPerSecond`
+          </td>
+
+          <td>
             Number of internal temporary tables created per second by the server while executing statements.
           </td>
         </tr>
@@ -504,6 +692,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.handlerDeletePerSecond`
+          </td>
+
+          <td>
+            `mysql.node.handler.deletePerSecond`
           </td>
 
           <td>
@@ -517,6 +709,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.handler.readFirstPerSecond`
+          </td>
+
+          <td>
             Number of times per second the first entry in an index was read.
           </td>
         </tr>
@@ -524,6 +720,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.handlerReadKeyPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.handler.readKeyPerSecond`
           </td>
 
           <td>
@@ -537,6 +737,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.handler.readRndNextPerSecond`
+          </td>
+
+          <td>
             Number of requests per second to read the next row in the data file.
           </td>
         </tr>
@@ -544,6 +748,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.handlerReadRndPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.handler.readRndPerSecond`
           </td>
 
           <td>
@@ -557,6 +765,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.handler.updatePerSecond`
+          </td>
+
+          <td>
             Number of requests per second to update a row in a table.
           </td>
         </tr>
@@ -564,6 +776,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.handlerWritePerSecond`
+          </td>
+
+          <td>
+            `mysql.node.handler.writePerSecond`
           </td>
 
           <td>
@@ -577,6 +793,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.maxExecutionTimeExceededPerSecond`
+          </td>
+
+          <td>
             Number of SELECT statements per second for which the execution timeout was exceeded.
           </td>
         </tr>
@@ -587,7 +807,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Number of free memory blocks in the query cache.
+            `mysql.node.qCache.freeBlocks`
+          </td>
+
+          <td>
+            Number of free memory blocks in the query cache. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -597,7 +821,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Number of query cache hits per second.
+            `mysql.node.qCache.hitsPerSecond`
+          </td>
+
+          <td>
+            Number of query cache hits per second. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -607,7 +835,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Number of queries added to the query cache.
+            `mysql.node.qCache.inserts`
+          </td>
+
+          <td>
+            Number of queries added to the query cache. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -617,7 +849,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Number of queries per second that were deleted from the query cache because of low memory.
+            `mysql.node.qCache.lowmemPrunesPerSecond`
+          </td>
+
+          <td>
+            Number of queries per second that were deleted from the query cache because of low memory. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -627,7 +863,11 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Number of queries per second registered in the query cache.
+            `mysql.node.qCache.queriesInCachePerSecond`
+          </td>
+
+          <td>
+            Number of queries per second registered in the query cache. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
@@ -637,13 +877,21 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Total number of blocks in the query cache.
+            `mysql.node.qCache.totalBlocks`
+          </td>
+
+          <td>
+            Total number of blocks in the query cache. Not supported from [MySQL 8.0](https://dev.mysql.com/doc/refman/5.7/en/query-cache-status-and-maintenance.html)
           </td>
         </tr>
 
         <tr>
           <td>
             `db.selectFullJoinPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.selectFullJoinPerSecond`
           </td>
 
           <td>
@@ -657,6 +905,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.selectFullJoinRangePerSecond`
+          </td>
+
+          <td>
             Number of joins per second that used a range search on a reference table.
           </td>
         </tr>
@@ -664,6 +916,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.selectRangeCheckPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.selectRangeCheckPerSecond`
           </td>
 
           <td>
@@ -677,6 +933,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.selectRangePerSecond`
+          </td>
+
+          <td>
             Number of joins per second that used ranges on the first table.
           </td>
         </tr>
@@ -684,6 +944,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.sortMergePassesPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.sortMergePassesPerSecond`
           </td>
 
           <td>
@@ -697,6 +961,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.sortRangePerSecond`
+          </td>
+
+          <td>
             Number of sorts per second that were done using ranges.
           </td>
         </tr>
@@ -704,6 +972,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.sortRowsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.sortRowsPerSecond`
           </td>
 
           <td>
@@ -717,6 +989,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.sortScanPerSecond`
+          </td>
+
+          <td>
             Number of sorts that were done by scanning the table, per second.
           </td>
         </tr>
@@ -724,6 +1000,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.tableOpenCacheHitsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.tableOpenCacheHitsPerSecond`
           </td>
 
           <td>
@@ -737,6 +1017,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.tableOpenCacheMissesPerSecond`
+          </td>
+
+          <td>
             Number of misses per second for open tables cache lookups.
           </td>
         </tr>
@@ -744,6 +1028,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.tableOpenCacheOverflowsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.tableOpenCacheOverflowsPerSecond`
           </td>
 
           <td>
@@ -757,6 +1045,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.threadCacheMissRate`
+          </td>
+
+          <td>
             Percent of threads that need to be created to handle new connections because there are not enough threads available in the cache.
           </td>
         </tr>
@@ -767,6 +1059,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.threadsCached`
+          </td>
+
+          <td>
             Number of threads in the thread cache.
           </td>
         </tr>
@@ -774,6 +1070,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.threadsCreatedPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.threadsCreatedPerSecond`
           </td>
 
           <td>
@@ -794,7 +1094,11 @@ The MySQL integration collects the following metrics:
       <thead>
         <tr>
           <th style={{ width: "350px" }}>
-            Name
+            Event Attribute Name
+          </th>
+
+          <th>
+            Dimensional Metric Name
           </th>
 
           <th>
@@ -810,6 +1114,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.pagesDirty`
+          </td>
+
+          <td>
             Current number of dirty pages in the InnoDB buffer pool.
           </td>
         </tr>
@@ -817,6 +1125,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.bufferPoolPagesFlushedPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.bufferPool.pagesFlushedPerSecond`
           </td>
 
           <td>
@@ -830,6 +1142,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.readAheadEvictedPerSecond`
+          </td>
+
+          <td>
             Number of pages per second read into the InnoDB buffer pool by the read-ahead background thread that were subsequently evicted without having been accessed by queries.
           </td>
         </tr>
@@ -837,6 +1153,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.bufferPoolReadAheadPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.bufferPool.readAheadPerSecond`
           </td>
 
           <td>
@@ -850,6 +1170,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.readAheadRndPerSecond`
+          </td>
+
+          <td>
             Number of “random” read-aheads per second initiated by InnoDB. This happens when a query scans a large portion of a table but in random order.
           </td>
         </tr>
@@ -857,6 +1181,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.bufferPoolReadRequestsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.bufferPool.readRequestsPerSecond`
           </td>
 
           <td>
@@ -870,6 +1198,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.readsPerSecond`
+          </td>
+
+          <td>
             Number of logical reads that InnoDB could not satisfy from the buffer pool, and had to read directly from disk, per second.
           </td>
         </tr>
@@ -877,6 +1209,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.bufferPoolWaitFreePerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.bufferPool.waitFreePerSecond`
           </td>
 
           <td>
@@ -890,6 +1226,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.bufferPool.writeRequestsPerSecond`
+          </td>
+
+          <td>
             Number of writes per second done to the InnoDB buffer pool.
           </td>
         </tr>
@@ -897,6 +1237,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.dataFsyncsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.dataFsyncsPerSecond`
           </td>
 
           <td>
@@ -910,6 +1254,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.dataPendingFsyncs`
+          </td>
+
+          <td>
             Current number of pending fsync() operations.
           </td>
         </tr>
@@ -917,6 +1265,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.dataPendingReads`
+          </td>
+
+          <td>
+            `mysql.node.innodb.dataPendingReads`
           </td>
 
           <td>
@@ -930,6 +1282,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.dataPendingWrites`
+          </td>
+
+          <td>
             Current number of pending writes.
           </td>
         </tr>
@@ -937,6 +1293,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.dataReadsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.dataReadsPerSecond`
           </td>
 
           <td>
@@ -950,6 +1310,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.dataWritesPerSecond`
+          </td>
+
+          <td>
             Number of data writes per second.
           </td>
         </tr>
@@ -957,6 +1321,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.logWriteRequestsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.logWriteRequestsPerSecond`
           </td>
 
           <td>
@@ -970,6 +1338,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.logWritesPerSecond`
+          </td>
+
+          <td>
             Number of physical writes per second to the InnoDB redo log file.
           </td>
         </tr>
@@ -977,6 +1349,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.numOpenFiles`
+          </td>
+
+          <td>
+            `mysql.node.innodb.numOpenFiles`
           </td>
 
           <td>
@@ -990,6 +1366,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.osLogFsyncsPerSecond`
+          </td>
+
+          <td>
             Number of `fsync()` writes per second done to the InnoDB redo log files.
           </td>
         </tr>
@@ -997,6 +1377,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.osLogPendingFsyncs`
+          </td>
+
+          <td>
+            `mysql.node.innodb.osLogPendingFsyncs`
           </td>
 
           <td>
@@ -1010,6 +1394,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.osLogPendingWrites`
+          </td>
+
+          <td>
             Number of pending writes per second to the InnoDB redo log files.
           </td>
         </tr>
@@ -1017,8 +1405,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.osLogWrittenBytesPerSecond`
+          </td>
 
-            _rate_
+          <td>
+            `mysql.node.innodb.osLogWrittenBytesPerSecond`
           </td>
 
           <td>
@@ -1032,6 +1422,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.pagesCreatedPerSecond`
+          </td>
+
+          <td>
             The number of pages created per second by operations on InnoDB tables.
           </td>
         </tr>
@@ -1039,6 +1433,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.pagesReadPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.pagesReadPerSecond`
           </td>
 
           <td>
@@ -1052,6 +1450,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.pagesWrittenPerSecond`
+          </td>
+
+          <td>
             Number of pages written per second by operations on InnoDB tables.
           </td>
         </tr>
@@ -1059,6 +1461,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.rowsDeletedPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.rowsDeletedPerSecond`
           </td>
 
           <td>
@@ -1072,6 +1478,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.rowsInsertedPerSecond`
+          </td>
+
+          <td>
             Number of rows per second inserted into InnoDB tables.
           </td>
         </tr>
@@ -1082,6 +1492,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.innodb.rowsReadPerSecond`
+          </td>
+
+          <td>
             Number of rows per second read from InnoDB tables.
           </td>
         </tr>
@@ -1089,6 +1503,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.innodb.rowsUpdatedPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.innodb.rowsUpdatedPerSecond`
           </td>
 
           <td>
@@ -1109,7 +1527,11 @@ The MySQL integration collects the following metrics:
       <thead>
         <tr>
           <th style={{ width: "350px" }}>
-            Name
+            Event Attribute Name
+          </th>
+
+          <th>
+            Dimensional Metric Name
           </th>
 
           <th>
@@ -1125,6 +1547,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.myisam.keyBlocksNotFlushed`
+          </td>
+
+          <td>
             Number of key blocks in the MyISAM key cache that have changed but have not yet been flushed to disk.
           </td>
         </tr>
@@ -1132,6 +1558,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.myisam.keyCacheUtilization`
+          </td>
+
+          <td>
+            `mysql.node.myisam.keyCacheUtilization`
           </td>
 
           <td>
@@ -1145,6 +1575,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.myisam.keyReadRequestsPerSecond`
+          </td>
+
+          <td>
             Number of requests to read a key block from the MyISAM key cache, per second.
           </td>
         </tr>
@@ -1152,6 +1586,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.myisam.keyReadsPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.myisam.keyReadsPerSecond`
           </td>
 
           <td>
@@ -1165,6 +1603,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.myisam.keyWriteRequestsPerSecond`
+          </td>
+
+          <td>
             Number of requests per second to write a key block to the MyISAM key cache.
           </td>
         </tr>
@@ -1172,6 +1614,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `db.myisam.keyWritesPerSecond`
+          </td>
+
+          <td>
+            `mysql.node.myisam.keyWritesPerSecond`
           </td>
 
           <td>
@@ -1192,7 +1638,11 @@ The MySQL integration collects the following metrics:
       <thead>
         <tr>
           <th style={{ width: "350px" }}>
-            Name
+            Event Attribute Name
+          </th>
+
+          <th>
+            Dimensional Metric Name
           </th>
 
           <th>
@@ -1208,6 +1658,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.relayLogSpace`
+          </td>
+
+          <td>
             Total combined number of bytes for all existing relay log files.
           </td>
         </tr>
@@ -1215,6 +1669,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `cluster.lastIOErrno`
+          </td>
+
+          <td>
+            `mysql.node.cluster.lastIoErrno`
           </td>
 
           <td>
@@ -1228,6 +1686,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            N/A
+          </td>
+
+          <td>
             Error message of the most recent error that caused the I/O thread to stop.
           </td>
         </tr>
@@ -1235,6 +1697,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `cluster.lastSQLErrno`
+          </td>
+
+          <td>
+            `mysql.node.cluster.lastSqlErrno`
           </td>
 
           <td>
@@ -1248,6 +1714,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            N/A
+          </td>
+
+          <td>
             Error message of the most recent error that caused the SQL thread to stop.
           </td>
         </tr>
@@ -1255,6 +1725,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `cluster.slaveIORunning`
+          </td>
+
+          <td>
+            N/A
           </td>
 
           <td>
@@ -1268,6 +1742,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            N/A
+          </td>
+
+          <td>
             Status of whether the SQL thread is started. The values can be `Yes` or `No`.
           </td>
         </tr>
@@ -1278,13 +1756,21 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
-            Difference in seconds between the slave's clock time and the timestamp of the query when it was recorded in the master's binary log. When the slave is not correctly connected to the master, this metric won't be reported.
+            `mysql.node.cluster.secondsBehindMaster`
+          </td>
+
+          <td>
+            Difference in seconds between the slave’s clock time and the timestamp of the query when it was recorded in the master’s binary log. When the slave is not correctly connected to the     master, this metric won’t be reported.
           </td>
         </tr>
 
         <tr>
           <td>
             `cluster.masterLogFile`
+          </td>
+
+          <td>
+            N/A
           </td>
 
           <td>
@@ -1298,6 +1784,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            `mysql.node.cluster.readMasterLogPos`
+          </td>
+
+          <td>
             Position in the current master binary log file up to which the I/O thread has read.
           </td>
         </tr>
@@ -1308,6 +1798,10 @@ The MySQL integration collects the following metrics:
           </td>
 
           <td>
+            N/A
+          </td>
+
+          <td>
             Name of the master binary log file containing the most recent event executed by the SQL thread.
           </td>
         </tr>
@@ -1315,6 +1809,10 @@ The MySQL integration collects the following metrics:
         <tr>
           <td>
             `cluster.execMasterLogPos`
+          </td>
+
+          <td>
+            `mysql.node.cluster.execMasterLogPos`
           </td>
 
           <td>

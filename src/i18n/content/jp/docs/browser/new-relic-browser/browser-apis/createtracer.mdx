@@ -7,13 +7,12 @@ tags:
   - Browser monitoring
   - Browser agent and SPA API
 metaDescription: 'SPA API call for browser to time an interaction''s sub-components separately, including wait time and JS execution time.'
+freshnessValidatedDate: never
 translationType: machine
 ---
 
-import browserAsyncTimeline from 'images/browser_diagram_async-timeline.png'
-
 <Callout variant="important">
-  この API を使用するには、ブラウザ エージェントの Browser Pro+SPA エディションが必要です。
+  SPA API の`createTracer`メソッドは非推奨になりました。 タスクの期間を追跡するための推奨される方法は、パフォーマンス[マーク](https://developer.mozilla.org/en-US/docs/Web/API/Performance/mark)を取得したり、[測定し](https://developer.mozilla.org/en-US/docs/Web/API/Performance/measure)たりすることです。 ブラウザエージェントの将来のバージョンでは、マークとメジャーが自動的にキャプチャされるようになり、その時点で`createTracer`のサポートは終了します。
 </Callout>
 
 ## 構文
@@ -26,7 +25,24 @@ newrelic.interaction().createTracer(string $name[, function $callback])
 
 ## 要件
 
-エージェントのバージョン [nr-963](/docs/release-notes/new-relic-browser-release-notes/browser-agent-release-notes) 以上。
+* Browser Pro または Pro+SPA エージェント (v963 以降)
+
+* npm を使用してブラウザ エージェントをインストールしている場合は、 `BrowserAgent`クラスをインスタンス化するときに`spa`機能を有効にする必要があります。`features`配列に以下を追加します。
+
+  ```js
+  import { Spa } from '@newrelic/browser-agent/features/spa';
+
+  const options = {
+    info: { ... },
+    loader_config: { ... },
+    init: { ... },
+    features: [
+      Spa
+    ]
+  }
+  ```
+
+  詳細については、 [npm ブラウザのインストールに関するドキュメントを](https://www.npmjs.com/package/@newrelic/browser-agent#new-relic-browser-agent)参照してください。
 
 ## 説明
 
@@ -69,7 +85,7 @@ newrelic.interaction().createTracer(string $name[, function $callback])
       <td>
         `$name`
 
-        _ストリング_
+        *ストリング*
       </td>
 
       <td>
@@ -83,7 +99,7 @@ newrelic.interaction().createTracer(string $name[, function $callback])
       <td>
         `$callback`
 
-        _機能_
+        *機能*
       </td>
 
       <td>
@@ -135,8 +151,4 @@ function doTheWork() {
 
 ここではトレーサーのタイミングを時系列でご紹介します。
 
-<img
-  title="spa-trace-async-timeline.png"
-  alt="SPA async timeline image"
-  src={browserAsyncTimeline}
-/>
+<img title="spa-trace-async-timeline.png" alt="SPA async timeline image" src="/images/browser_diagram_async-timeline.webp" />

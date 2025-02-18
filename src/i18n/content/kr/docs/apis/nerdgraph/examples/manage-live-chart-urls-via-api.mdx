@@ -5,6 +5,7 @@ tags:
   - NerdGraph
   - Examples
 metaDescription: Use New Relic NerdGraph to list and revoke live chart URLs
+freshnessValidatedDate: never
 translationType: machine
 ---
 
@@ -17,14 +18,14 @@ translationType: machine
 3. [원하는 라이브 차트 URL을 취소합니다](#revoke) .
 
 <Callout variant="tip">
-  [공개 라이브 차트를 만들려면](/docs/new-relic-one/use-new-relic-one/ui-data/basic-ui-features/#share) 문서를 참조하세요.
+  [공개 라이브 차트를 작성하려면](/docs/query-your-data/explore-query-data/dashboards/manage-your-dashboard/#export-share) 문서를 참조하세요.
 </Callout>
 
 ## 모든 라이브 차트 URL 나열 [#list]
 
 다음 쿼리를 사용하여 기존 라이브 차트 URL 목록을 검색합니다.
 
-```
+```graphql
 {
   actor {
     dashboard {
@@ -48,9 +49,9 @@ translationType: machine
 
 다음 쿼리를 사용하여 지정한 라이브 차트 URL을 취소합니다.
 
-```
+```graphql
 mutation {
-  dashboardWidgetRevokeLiveUrl(uuid: "<enter-the-UUID-of-the-live-chart>") {
+  dashboardWidgetRevokeLiveUrl(uuid: "LIVE_CHART_UUID") {
     uuid
     errors {
       description

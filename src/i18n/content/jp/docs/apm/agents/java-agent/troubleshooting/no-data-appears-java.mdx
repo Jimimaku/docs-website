@@ -6,6 +6,7 @@ tags:
   - Java agent
   - Troubleshooting
 metaDescription: Troubleshooting procedures if you do not see data for your app in the New Relic UI after installing the Java agent.
+freshnessValidatedDate: never
 translationType: human
 ---
 
@@ -55,7 +56,7 @@ translationType: human
 7. アプリが予測名にレポートしていることを確認：New Relicログファイルで、`"reporting to"`を検索し、メッセージ内のリンクを選択します。例:
 
    ```
-   {"message":"Reporting to: https://rpm.newrelic.com/accounts/<var>000</var>/applications/<var>000000</var>"}
+   {"message":"Reporting to: https://rpm.newrelic.com/accounts/000/applications/000000"}
    ```
 
    [複数のアプリケーション名](/docs/apm/new-relic-apm/installation-configuration/using-multiple-names-app)にレポートしている場合は、このメッセージを伴う複数の行を探してください。

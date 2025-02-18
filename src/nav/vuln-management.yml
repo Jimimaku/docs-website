@@ -1,8 +1,12 @@
 title: Vulnerability management
 path: /docs/vulnerability-management
 pages:
-  - title: Getting started with vulnerability management
+  - title: Get started with vulnerability management
     path: /docs/vulnerability-management/overview
+  - title: Understanding vulnerability prioritization
+    path: /docs/vulnerability-management/understanding-prioritization
+  - title: Change vulnerability status
+    path: /docs/vulnerability-management/change-vulnerability-status
   - title: Manage vulnerabilities as a developer
     path: /docs/vulnerability-management/dev-workflow
   - title: Manage vulnerabilities as a security team
@@ -11,13 +15,17 @@ pages:
     pages:
       - title: Vulnerability integrations overview
         path: /docs/vulnerability-management/integrations/intro
-      - title: Security data API
-        path: /docs/vulnerability-management/integrations/security-data-api
       - title: AWS Security
         path: /docs/vulnerability-management/integrations/aws
       - title: Dependabot
         path: /install/vm
       - title: Snyk
-        path: /docs/vulnerability-management/integrations/snyk
+        pages:
+          - title: Send Snyk data to New Relic
+            path: /docs/vulnerability-management/integrations/snyk
+          - title: Troubleshoot Snyk
+            path: /docs/vulnerability-management/integrations/snyk-troubleshooting
       - title: Trivy
         path: /docs/vulnerability-management/integrations/trivy
+      - title: FOSSA
+        path: /docs/vulnerability-management/integrations/fossa  

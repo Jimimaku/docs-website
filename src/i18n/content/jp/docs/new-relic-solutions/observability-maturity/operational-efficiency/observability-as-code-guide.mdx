@@ -1,21 +1,14 @@
 ---
-title: 'コードとしてのオブザーバビリティ: オブザーバビリティ構成を自動化して価値を高める'
+title: 'コードとしてのオブザーバビリティ: オブザーバビリティの構成を自動化して価値を高める'
 metaDescription: Our observability as code guide gives you best practices for automating your New Relic installation and configuration.
 tags:
   - Observability as Code
   - Automation
   - Workflow
   - Implementation guide
+freshnessValidatedDate: never
 translationType: machine
 ---
-
-import oacEnvMaturity from 'images/oac_diagram_env-maturity.png'
-
-import oacTeamBasedAccess from 'images/oac_diagram_team-based-access.png'
-
-import oacTfWorkflow from 'images/oac_diagram_tf-workflow.png'
-
-import oacConfigDrift from 'images/oac_diagram_config-drift.png'
 
 このガイドでは、New Relicのインストールと構成を自動化して、可観測性から得られる価値を最大化するためのアイデアとプロセスについて説明します。これは[、可観測性の成熟度に関するシリーズ](/docs/new-relic-solutions/observability-maturity/introduction)の一部です。
 
@@ -87,7 +80,7 @@ Terraformのようなプロビジョニングツールを使用すると、既�
     title="コードで管理されるリソースの比率"
   >
     <img
-      src={oacEnvMaturity}
+      src="/images/oac_diagram_env-maturity.webp"
       title="Environment maturity"
       alt="Percentage of code driven configuration increases with environment maturity"
     />
@@ -197,7 +190,7 @@ New Relicでコードとしての可観測性を採用することを決定し�
 たとえば、それぞれが異なるNewRelicアカウントでアプリケーションを監視する複数のアプリケーションチームに代わってクラウドインフラストラクチャを管理する共有インフラストラクチャチームがあるとします。この共有インフラストラクチャチームは、アプリケーションチーム自身のリソースとともに、これらのアカウント内で独自のNewRelicリソースを管理します。ユーザーの書き込みアクセスを制限し、主要なリソースがコードとしての可観測性ワークフローを介してのみ管理されるようにすることで、チームのリソースが調和して共存し、不正または意図しない変更の可能性を減らすことができます。
 
 <img
-  src={oacTeamBasedAccess}
+  src="/images/oac_diagram_team-based-access.webp"
   title="Team based resource isolation permission model"
   alt="Team based resource isolation permission model"
 />
@@ -255,7 +248,7 @@ Terraformモジュールは、リモートレジストリに[公開](https://www
 チームがNewRelic構成で共同作業できるように、 [Terraformワークフロー](https://www.terraform.io/intro/core-workflow)を採用することをお勧めします。そのようなワークフローの1つは、GitHub、GitLab、Bitbucketなどのコードバージョン管理システムのCI / CD機能を活用して、組み込みの承認およびレビューメカニズムを使用してコードを自動的に計画および適用します。
 
 <img
-  src={oacTfWorkflow}
+  src="/images/oac_diagram_tf-workflow.webp"
   title="Simple Terraform workflow"
   alt="Example Terraform workflow"
 />
@@ -268,7 +261,7 @@ Terraformモジュールは、リモートレジストリに[公開](https://www
 
 次の[参照例](https://github.com/newrelic-experimental/oma-nr-terraform-workflows)は、さまざまなシステムでTerraformワークフローを設定する方法を示しています。
 
-* [GitHubアクションの例](https://github.com/newrelic-experimental/oma-nr-terraform-workflows/blob/main/github-action-example)：この例は、 [GitHubアクション](https://github.com/features/actions)をAWSS3でバックアップされた状態ストレージと一緒に使用する方法を示しています。
+* [GitHub Actions の例](https://github.com/newrelic-experimental/oma-nr-terraform-workflows/blob/main/github-action-example): この例では、 [GitHub Actions](https://github.com/features/actions)を AWS S3 でサポートされた状態ストレージと一緒に使用する方法を示します。
 * [GitLabパイプラインの例](https://github.com/newrelic-experimental/oma-nr-terraform-workflows/blob/main/gitlab-pipeline-example)：この例は、 [GitLabパイプライン](https://docs.gitlab.com/ee/user/infrastructure/iac/)をGitlabhttp状態ストレージと一緒に使用する方法を示しています。
 * [Bitbucketパイプラインの例](https://github.com/newrelic-experimental/oma-nr-terraform-workflows/blob/main/bitbucket-pipeline-example)：この例は、 [Bitbucketパイプライン](https://bitbucket.org/product/features/pipelines)をS3でバックアップされた状態ストレージと一緒に使用する方法を示しています。
 
@@ -286,7 +279,7 @@ observability-as-codeワークフローを介してリソースを自動的に�
 * **検出、修正、通知**：このモードでは、ドリフトが検出され、可能な場合はワークフローによって自動的に修正されます。
 
 <img
-  src={oacConfigDrift}
+  src="/images/oac_diagram_config-drift.webp"
   title="Configuration drift workflow"
   alt="Configuration drift workflow"
 />
@@ -297,7 +290,7 @@ observability-as-codeワークフローを介してリソースを自動的に�
 
 #### 構成ドリフト参照例
 
-このリファレンス例では、GitHubアクションを利用して、通常のTerraformプランの操作をスケジュールします。検出された変更の数はNewRelicに報告され、Terraformの再適用をオプションで開始できます。
+この参照例では、GitHub Actions を活用して、通常の Terraform プラン操作をスケジュールします。検出された変更の数は New Relic に報告され、オプションで Terraform の再適用を開始できます。
 
 [Terraform構成のドリフトの例](https://github.com/newrelic-experimental/oma-nr-terraform-workflows/tree/main/github-tf-config-drift)
 

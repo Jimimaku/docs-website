@@ -11,11 +11,11 @@ import {
 } from '@newrelic/gatsby-theme-newrelic';
 import Timeline from '../components/Timeline';
 import SEO from '../components/SEO';
+import ErrorBoundary from '../components/ErrorBoundary';
 import { TYPES } from '../utils/constants';
 
-const WhatsNew = ({ data, location, pageContext }) => {
+const WhatsNew = ({ data, location }) => {
   const now = useMemo(() => new Date(), []);
-  const { slug } = pageContext;
   const { allMarkdownRemark } = data;
   const posts = allMarkdownRemark.edges.map(({ node }) => node);
   const postsByDate = Array.from(
@@ -38,7 +38,7 @@ const WhatsNew = ({ data, location, pageContext }) => {
   const { t } = useTranslation();
 
   return (
-    <>
+    <ErrorBoundary eventName="whatsNewOverview">
       <SEO
         location={location}
         title="What's new in New Relic"
@@ -61,9 +61,9 @@ const WhatsNew = ({ data, location, pageContext }) => {
             }
           `}
         >
-          <span>{t('whatsNew.title')}</span>
+          <span>{t('strings.whatsNew.title')}</span>
           <Link
-            to={`${slug}/feed.xml`}
+            to="/whats-new/feed.xml"
             css={css`
               display: flex;
               align-items: center;
@@ -122,14 +122,13 @@ const WhatsNew = ({ data, location, pageContext }) => {
           </Timeline>
         </Layout.Content>
       </div>
-    </>
+    </ErrorBoundary>
   );
 };
 
 WhatsNew.propTypes = {
   data: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  pageContext: PropTypes.object.isRequired,
 };
 
 export const pageQuery = graphql`

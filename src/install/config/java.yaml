@@ -1,7 +1,7 @@
 agentName: java
 agentType: APM
 title: 'Monitor your Java app'
-metaDescription: 'New Relic supports the most popular Java app servers, frameworks, virtual machines, and tools. Once installed, the APM agent monitors your app’s performance and gives you insight into that performance.'
+metaDescription: "New Relic supports the most popular Java app servers, frameworks, virtual machines, and tools. Once installed, the APM agent monitors your app's performance and gives you insight into that performance."
 introFilePath: 'src/install/java/intro.mdx'
 agentConfigFilePath: 'src/install/config/agent-config/java-newrelic.txt'
 redirects:
@@ -45,16 +45,17 @@ redirects:
   - /docs/agents/java-agent/frameworks/websphere-installation-java
   - /docs/agents/java-agent/frameworks/websphere-liberty-profile-installation-java
   - /docs/agents/java-agent/frameworks/wildfly-installation-java
-  - /node/2596
   - /docs/agents/java-agent/frameworks/grails-installation-java
   - /node/2306
   - /docs/agents/java-agent/installation/java-agent-manual-installation
   - /docs/agents/java-agent/installation/java-agent-self-installer
   - /docs/apm/agents/java-agent/installation/install-java-agent
+  - /docs/agents/java-agent/additional-installation/websphere-application-server/
+  - /docs/agents/java-agent/additional-installation/ibm-websphere-application-server
 appInfo:
   - optionType: deployment
     label: 'Where is your app deployed?'
-    placeholder: 'My app is deployed on...'
+    placeholder: 'Choose one:'
     options:
       - value: 'appServer'
         displayName: 'an app server'
@@ -72,12 +73,13 @@ appInfo:
       - value: 'aws'
         displayName: 'AWS Lambda'
         logo: 'awsLambda'
-      - value: 'ansible'
-        displayName: 'Ansible'
-        logo: 'ansible'
+      - value: 'azure'
+        displayName: 'Azure App Services Site Extension (Windows only)'
+      - value: 'azurelinuxcontainer'
+        displayName: 'Azure App Services Linux Container'        
   - optionType: framework
     label: 'What framework are you using?'
-    placeholder: 'My framework is...'
+    placeholder: 'Choose one:'
     options:
       - value: 'coldfusion'
         displayName: 'ColdFusion'
@@ -129,7 +131,16 @@ appInfo:
         logo: 'wildfly'
         recommendedGuided: true
 steps:
-  - filePath: 'src/install/java/appInfo.mdx'
+  - filePath: 'src/install/java/appInfo-1.mdx'
+  - filePath: 'src/install/java/appInfo-2.mdx'
+    overrides:
+      - isConditionalStep: true
+        selectedOptions:
+          - optionType: deployment
+            options:
+              - value: 'appServer'
+              - value: 'maven'
+              - value: 'gradle'
   - filePath: 'src/install/java/download/default.mdx'
     overrides:
       - filePath: 'src/install/java/download/maven.mdx'
@@ -147,11 +158,11 @@ steps:
           - optionType: deployment
             options:
               - value: 'aws'
-      - filePath: 'src/install/java/download/ansible.mdx'
+      - filePath: 'src/install/java/download/azure-site-extension.mdx'
         selectedOptions:
           - optionType: deployment
             options:
-              - value: 'ansible'
+              - value: 'azure'
   - filePath: 'src/install/java/license.mdx'
     overrides:
       - skip: true
@@ -160,6 +171,7 @@ steps:
             options:
               - value: 'aws'
               - value: 'ansible'
+              - value: 'azure'
   - filePath: 'src/install/java/agentConfig.mdx'
     overrides:
       - skip: true
@@ -168,6 +180,7 @@ steps:
             options:
               - value: 'aws'
               - value: 'ansible'
+              - value: 'azure'
   - filePath: 'src/install/java/createDirectory.mdx'
     overrides:
       - filePath: 'src/install/java/download/docker-config.mdx'
@@ -175,6 +188,7 @@ steps:
           - optionType: deployment
             options:
               - value: 'docker'
+              - value: 'azurelinuxcontainer'
       - skip: true
         selectedOptions:
           - optionType: deployment
@@ -182,6 +196,7 @@ steps:
               - value: 'aws'
               - value: 'docker'
               - value: 'ansible'
+              - value: 'azure'
   - filePath: 'src/install/java/moveDirectory.mdx'
     overrides:
       - filePath: 'src/install/java/download/docker-basic.mdx'
@@ -189,12 +204,14 @@ steps:
           - optionType: deployment
             options:
               - value: 'docker'
+              - value: 'azurelinuxcontainer'
       - skip: true
         selectedOptions:
           - optionType: deployment
             options:
               - value: 'aws'
               - value: 'ansible'
+              - value: 'azure'
   - filePath: 'src/install/java/frameworkInstallation/default.mdx'
     overrides:
       - skip: true
@@ -204,6 +221,8 @@ steps:
               - value: 'aws'
               - value: 'docker'
               - value: 'ansible'
+              - value: 'azure'
+              - value: 'azurelinuxcontainer'
       - filePath: 'src/install/java/frameworkInstallation/jetty.mdx'
         selectedOptions:
           - optionType: framework
@@ -222,6 +241,8 @@ steps:
           - optionType: deployment
             options:
               - value: 'appServer'
+              - value: 'maven'
+              - value: 'gradle'
       - filePath: 'src/install/java/frameworkInstallation/tomcat.mdx'
         selectedOptions:
           - optionType: framework
@@ -230,6 +251,8 @@ steps:
           - optionType: deployment
             options:
               - value: 'appServer'
+              - value: 'maven'
+              - value: 'gradle'
       - filePath: 'src/install/java/frameworkInstallation/tomcat.mdx'
         selectedOptions:
           - optionType: framework
@@ -238,6 +261,7 @@ steps:
           - optionType: deployment
             options:
               - value: 'docker'
+              - value: 'azurelinuxcontainer'
       - filePath: 'src/install/java/frameworkInstallation/wildfly.mdx'
         selectedOptions:
           - optionType: framework

@@ -4,6 +4,7 @@ tags:
   - APM
   - Maintenance
 metaDescription: How to temporarily disable your APM agent.
+freshnessValidatedDate: never
 translationType: machine
 ---
 
@@ -12,20 +13,13 @@ translationType: machine
 関連する手続き
 
 * APMを完全に無効にするには、 [エージェントをアンインストールしてください](/docs/agents/manage-apm-agents/installation/uninstall-agent) 。
-* あるものは監視するが他のものは監視しないようにエージェントを構成するには、 [custom instrumentation](/docs/agents/manage-apm-agents/agent-data/custom-instrumentation) を使用します。
+* 一部のものを監視し、他のものは監視しないようにエージェントを構成するには、 [カスタム インストルメンテーション](/docs/apm/agents/manage-apm-agents/agent-data/custom-instrumentation/)を使用します。
 
 ## APM エージェントを無効化またはオフにする [#agents]
 
 エージェントの種類を選択すると、説明が表示されます。
 
 <CollapserGroup>
-  <Collapser
-    id="c-sdk"
-    title="CSDK"
-  >
-    CのSDKは、直接オン/オフを切り替えることはできません。しかし、SDK 用にコードを記述することで、リコンパイルとデプロイをすばやく行うことができ、インスツルメンテーションを有効または無効にすることができます。標準的な手順に従って、 [C SDK の無効化またはアンインストールを行ってください。](/docs/agents/c-sdk/install-configure/uninstall-remove-c-sdk).
-  </Collapser>
-
   <Collapser
     id="go"
     title="Go"
@@ -51,7 +45,7 @@ translationType: machine
 
     * JVMのコマンドラインフラグを使用します。
 
-      ```
+      ```ini
       -Dnewrelic.config.agent_enabled=false
       ```
 
@@ -130,7 +124,7 @@ translationType: machine
 
     これらの方法では、ほとんどの機器を取り除くことができますが、少量のアクティビティとオーバーヘッドが残ります。
 
-    * [`agent_enabled`](/docs/agents/ruby-agent/configuration/ruby-agent-configuration#agent_enabled)構成設定を使用します。これは、構成ファイルまたは環境ごとのスタンザで行うことができます。その後、アプリ サーバーを再起動します。
+    * [`agent_enabled`](/docs/agents/ruby-agent/configuration/ruby-agent-configuration#agent_enabled)構成設定を使用します。 これは、構成ファイルまたは環境ごとのセクションで実行できます。 その後、アプリサーバーを再起動します。
 
     * [環境変数](/docs/agents/ruby-agent/configuration/ruby-agent-configuration#Options) で同様の操作を行い、アプリサーバーを再起動します。
 
@@ -140,7 +134,7 @@ translationType: machine
 
     * Gemfileとbundle installに以下を設定します。
 
-      ```
+      ```ruby
       gem 'newrelic_rpm', :require => false
       ```
 

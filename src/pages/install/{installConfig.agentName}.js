@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { graphql } from 'gatsby';
 import { css } from '@emotion/react';
 import {
   Walkthrough,
   TableOfContents,
   ContributingGuidelines,
+  ComplexFeedback,
   useQueryParams,
   Layout,
-  useTessen,
+  addPageAction,
 } from '@newrelic/gatsby-theme-newrelic';
 import PageTitle from '../../components/PageTitle';
 import MDXContainer from '../../components/MDXContainer';
@@ -17,6 +18,7 @@ import AppInfoConfigOption from '../../components/AppInfoConfigOption';
 import InstallNextSteps from '../../components/InstallNextSteps';
 import SEO from '../../components/SEO';
 import { TYPES } from '../../utils/constants';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 const slugify = (str) =>
   str
@@ -43,8 +45,7 @@ const InstallPage = ({ data, location }) => {
   const [showGuided, setShowGuided] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [agentConfigUpdate, setAgentConfigUpdate] = useState([]);
-
-  const tessen = useTessen();
+  const [isHydrated, setIsHydrated] = useState(false);
 
   if (typeof window !== 'undefined' && typeof newrelic === 'object') {
     window.newrelic.setCustomAttribute('pageType', 'Interactive/Install');
@@ -72,7 +73,7 @@ const InstallPage = ({ data, location }) => {
         (option) => option.value === value && option.recommendedGuided === true
       );
       setShowGuided(recommendedGuided);
-      tessen.track({
+      addPageAction({
         eventName: 'appInfoOptionSelected',
         category: `${capitalize(select.optionType)}AppInfoOptionSelect`,
         value,
@@ -87,7 +88,7 @@ const InstallPage = ({ data, location }) => {
 
   const handleAgentConfigChange = ({ name }) => {
     if (!agentConfigUpdate.includes(name)) {
-      tessen.track({
+      addPageAction({
         eventName: 'agentConfigFileUpdated',
         category: `${capitalize(name)}AgentConfigFileUpdated`,
         key: name,
@@ -162,6 +163,7 @@ const InstallPage = ({ data, location }) => {
       const { optionType } = frontmatter;
       return (
         <AppInfoConfigOption
+          showGuided={showGuided}
           onChange={handleAppInfoStateChange}
           selectOptions={selectOptions}
           optionType={optionType}
@@ -194,8 +196,15 @@ const InstallPage = ({ data, location }) => {
 
   const headings = walkthroughSteps.map(({ stepHeadings }) => stepHeadings);
 
+  // this was added because were running into hydration issues when an
+  // appConfigOption was supposed to conditionally render after a selection
+  // was chosen
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   return (
-    <>
+    <ErrorBoundary eventName="install">
       <SEO
         location={location}
         title={title}
@@ -209,8 +218,9 @@ const InstallPage = ({ data, location }) => {
             'mt-disclaimer mt-disclaimer'
             'page-title page-title'
             'content page-tools';
-          grid-template-columns: minmax(0, 1fr) 320px;
+          grid-template-columns: minmax(0, 1fr) 12.8125rem;
           grid-column-gap: 2rem;
+          padding: 0;
 
           @media screen and (max-width: 1240px) {
             grid-template-areas:
@@ -232,33 +242,37 @@ const InstallPage = ({ data, location }) => {
             <MDXContainer body={intro.mdx?.body} />
           </div>
           <div>
-            <Walkthrough>
-              {walkthroughSteps.map(({ content, step: { mdx } }, index) => {
-                const { descriptionText, headingText } = mdx?.frontmatter;
-                return (
-                  <Walkthrough.Step
-                    number={index + 1}
-                    title={headingText}
-                    active={selectedIndex === index}
-                    key={index}
-                    onMouseOver={() => handleSelectIndex(index)}
-                    onFocus={() => handleSelectIndex(index)}
-                    id={`${slugify(mdx.frontmatter?.headingText)}-${index + 1}`}
-                  >
-                    {descriptionText && (
-                      <p
-                        css={css`
-                          margin-bottom: 2rem;
-                        `}
-                      >
-                        {descriptionText}
-                      </p>
-                    )}
-                    {content}
-                  </Walkthrough.Step>
-                );
-              })}
-            </Walkthrough>
+            {isHydrated ? (
+              <Walkthrough>
+                {walkthroughSteps.map(({ content, step: { mdx } }, index) => {
+                  const { descriptionText, headingText } = mdx?.frontmatter;
+                  return (
+                    <Walkthrough.Step
+                      number={index + 1}
+                      title={headingText}
+                      active={selectedIndex === index}
+                      key={index}
+                      onMouseOver={() => handleSelectIndex(index)}
+                      onFocus={() => handleSelectIndex(index)}
+                      id={`${slugify(mdx.frontmatter?.headingText)}-${
+                        index + 1
+                      }`}
+                    >
+                      {descriptionText && (
+                        <p
+                          css={css`
+                            margin-bottom: 2rem;
+                          `}
+                        >
+                          {descriptionText}
+                        </p>
+                      )}
+                      {content}
+                    </Walkthrough.Step>
+                  );
+                })}
+              </Walkthrough>
+            ) : null}
           </div>
           <InstallNextSteps mdx={whatsNext.mdx} />
           <ContributingGuidelines
@@ -271,6 +285,7 @@ const InstallPage = ({ data, location }) => {
         </Layout.Content>
         <Layout.PageTools
           css={css`
+            gap: 0;
             @media (max-width: 1240px) {
               display: none;
             }
@@ -278,9 +293,10 @@ const InstallPage = ({ data, location }) => {
         >
           <ContributingGuidelines />
           <TableOfContents headings={headings} />
+          <ComplexFeedback pageTitle={title} />
         </Layout.PageTools>
       </Layout.Main>
-    </>
+    </ErrorBoundary>
   );
 };
 

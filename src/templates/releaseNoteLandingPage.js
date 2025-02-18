@@ -7,6 +7,8 @@ import Timeline from '../components/Timeline';
 import SEO from '../components/SEO';
 import { Button, Icon, Layout, Link } from '@newrelic/gatsby-theme-newrelic';
 import { TYPES } from '../utils/constants';
+import MDXContainer from '../components/MDXContainer';
+import { getTitle } from '../utils/releaseNotes';
 
 const sortByVersion = (
   { frontmatter: { version: versionA } },
@@ -102,7 +104,14 @@ const ReleaseNoteLandingPage = ({ data, pageContext, location }) => {
           />
         </Link>
       </PageTitle>
-      <Layout.Content>
+      <Layout.Content
+        css={css`
+          overflow-wrap: anywhere;
+          & img {
+            max-height: 460px;
+          }
+        `}
+      >
         <Timeline>
           {postsByDate.map(([date, posts], idx) => {
             const isLast = idx === postsByDate.length - 1;
@@ -129,16 +138,14 @@ const ReleaseNoteLandingPage = ({ data, pageContext, location }) => {
                           margin-bottom: 0.5rem;
                         `}
                       >
-                        {post.frontmatter.title
-                          ? post.frontmatter.title
-                          : `${subject} v${post.frontmatter.version}`}
+                        {getTitle(post.frontmatter)}
                       </Link>
                       <p
                         css={css`
                           margin-bottom: 0;
                         `}
                       >
-                        {post.excerpt}
+                        <MDXContainer body={post.body} />
                       </p>
                     </div>
                   );
@@ -235,11 +242,12 @@ export const pageQuery = graphql`
           slug
         }
         frontmatter {
+          subject
           title
           version
           releaseDate(formatString: "MMMM D, YYYY")
         }
-        excerpt
+        body
       }
     }
     mdx(fields: { slug: { eq: $slug } }) {

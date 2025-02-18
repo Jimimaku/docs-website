@@ -1,8 +1,12 @@
 const path = require('path');
 const { prop } = require('./scripts/utils/functional.js');
-const externalRedirects = require('./src/data/external-redirects.json');
 const { createFilePath } = require('gatsby-source-filesystem');
 const createSingleNav = require('./scripts/createSingleNav');
+const generateTOC = require('mdast-util-toc');
+// are needed for our tableOfContents override
+const genMDX = require('gatsby-plugin-mdx/utils/gen-mdx.js');
+const defaultOptions = require('gatsby-plugin-mdx/utils/default-options.js');
+const getTableOfContents = require('gatsby-plugin-mdx/utils/get-table-of-content.js');
 
 const TEMPLATE_DIR = 'src/templates/';
 const TRAILING_SLASH = /\/$/;
@@ -13,9 +17,6 @@ const hasOwnProperty = (obj, key) =>
 
 const hasTrailingSlash = (pathname) =>
   pathname === '/' ? false : TRAILING_SLASH.test(pathname);
-
-const appendTrailingSlash = (pathname) =>
-  pathname.endsWith('/') ? pathname : `${pathname}/`;
 
 exports.onPreBootstrap = () => {
   createSingleNav();
@@ -30,7 +31,7 @@ exports.onCreateWebpackConfig = ({ actions }) => {
         zlib: false,
       },
       alias: {
-        images: path.resolve(__dirname, 'src/images/'),
+        images: path.resolve(__dirname, 'static/images/'),
       },
     },
   });
@@ -38,11 +39,11 @@ exports.onCreateWebpackConfig = ({ actions }) => {
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
+  const type = node.internal.type;
 
   if (
-    node.internal.type === 'Mdx' ||
-    (node.internal.type === 'MarkdownRemark' &&
-      node.fileAbsolutePath.includes('src/content'))
+    type === 'Mdx' ||
+    (type === 'MarkdownRemark' && node.fileAbsolutePath.includes('src/content'))
   ) {
     createNodeField({
       node,
@@ -53,7 +54,7 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 };
 
 exports.createPages = async ({ actions, graphql, reporter }) => {
-  const { createPage, createRedirect } = actions;
+  const { createPage } = actions;
 
   const { data, errors } = await graphql(`
     query {
@@ -63,22 +64,12 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         edges {
           node {
             frontmatter {
-              type
+              subject
             }
             fields {
               fileRelativePath
               slug
             }
-          }
-        }
-      }
-
-      whatsNewPosts: allMarkdownRemark(
-        filter: { fileAbsolutePath: { regex: "/src/content/whats-new/" } }
-      ) {
-        nodes {
-          fields {
-            slug
           }
         }
       }
@@ -91,9 +82,7 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               slug
             }
             frontmatter {
-              type
               subject
-              redirects
             }
           }
         }
@@ -109,7 +98,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
               slug
             }
             frontmatter {
-              type
               subject
               translationType
             }
@@ -138,7 +126,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
           totalCount
         }
       }
-
       landingPagesReleaseNotes: allMdx(
         filter: {
           fileAbsolutePath: { regex: "/docs/release-notes/.*/index.mdx$/" }
@@ -150,7 +137,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
           }
           frontmatter {
             subject
-            redirects
           }
         }
       }
@@ -159,15 +145,6 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
         nodes {
           locale
           isDefault
-        }
-      }
-
-      allInstallConfig {
-        edges {
-          node {
-            redirects
-            agentName
-          }
         }
       }
     }
@@ -182,42 +159,13 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
     allI18nMdx,
     allMarkdownRemark,
     allMdx,
+    allLocale,
     releaseNotes,
     landingPagesReleaseNotes,
-    allLocale,
-    allInstallConfig,
-    whatsNewPosts,
   } = data;
 
-  const locales = allLocale.nodes
-    .filter((locale) => !locale.isDefault)
-    .map(prop('locale'));
-
-  externalRedirects.forEach(({ url, paths }) => {
-    paths.forEach((path) => {
-      createRedirect({
-        fromPath: path,
-        toPath: url,
-        isPermanent: true,
-        redirectInBrowser: true,
-      });
-    });
-  });
-
-  allInstallConfig.edges.forEach(({ node: { redirects, agentName } }) => {
-    redirects?.length &&
-      redirects.forEach((redirect) =>
-        createLocalizedRedirect({
-          locales,
-          fromPath: redirect,
-          toPath: `/install/${agentName}/`,
-          createRedirect,
-        })
-      );
-  });
-
   releaseNotes.group.forEach((el) => {
-    const { fieldValue, nodes, totalCount } = el;
+    const { fieldValue, totalCount } = el;
 
     const landingPage = landingPagesReleaseNotes.nodes.find(
       (node) => node.frontmatter.subject === fieldValue
@@ -225,49 +173,16 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
 
     if (landingPage) {
       releaseNotesPerAgent[landingPage.frontmatter.subject] = totalCount;
-      const { redirects } = landingPage.frontmatter;
-
-      createLocalizedRedirect({
-        locales,
-        fromPath: path.join(landingPage.fields.slug, 'current'),
-        toPath: nodes[0].fields.slug,
-        isPermanent: false,
-        createRedirect,
-      });
-
-      if (redirects) {
-        redirects.forEach((fromPath) => {
-          createLocalizedRedirect({
-            locales,
-            fromPath,
-            toPath: landingPage.fields.slug,
-            isPermanent: false,
-            createRedirect,
-          });
-        });
-      }
     }
   });
+
+  const locales = allLocale.nodes
+    .filter((locale) => !locale.isDefault)
+    .map(prop('locale'));
 
   const translatedContentNodes = allI18nMdx.edges.map(({ node }) => node);
 
   allMdx.edges.concat(allMarkdownRemark.edges).forEach(({ node }) => {
-    const {
-      fields: { slug },
-      frontmatter: { redirects },
-    } = node;
-
-    if (redirects) {
-      redirects.forEach((fromPath) => {
-        createLocalizedRedirect({
-          locales,
-          fromPath,
-          toPath: slug,
-          createRedirect,
-        });
-      });
-    }
-
     createPageFromNode(node, { createPage });
 
     locales.forEach((locale) => {
@@ -283,26 +198,26 @@ exports.createPages = async ({ actions, graphql, reporter }) => {
           createPage,
           disableSwiftype: !i18nNode,
         },
-        true // enable DSG
+        false // enable DSG
       );
-    });
-  });
-
-  whatsNewPosts.nodes.forEach((node) => {
-    const {
-      fields: { slug },
-    } = node;
-
-    createLocalizedRedirect({
-      locales,
-      fromPath: slug.replace(/\/\d{4}\/\d{2}/, ''),
-      toPath: slug,
-      createRedirect,
     });
   });
 };
 
-exports.createSchemaCustomization = ({ actions }) => {
+exports.createSchemaCustomization = (
+  {
+    getNode,
+    getNodes,
+    pathPrefix,
+    reporter,
+    cache,
+    actions,
+    schema,
+    store,
+    ...helpers
+  },
+  pluginOptions
+) => {
   const { createTypes } = actions;
 
   const typeDefs = `
@@ -311,6 +226,7 @@ exports.createSchemaCustomization = ({ actions }) => {
     title: String!
     path: String
     icon: String
+    label: String
     filterable: Boolean!
     pages: [NavYaml!]!
     rootNav: Boolean!
@@ -324,12 +240,73 @@ exports.createSchemaCustomization = ({ actions }) => {
   type Frontmatter {
     isFeatured: Boolean
     translationType: String
-    dataSource: String
+    eolDate: String
+    downloadLink: String
+    features: [String]
+    bugs: [String]
+    security: [String]
   }
 
   `;
 
-  createTypes(typeDefs);
+  // this was taken from gatsby-plugin-mdx/gatsby/create-schema-customization.js
+  const options = defaultOptions(pluginOptions);
+
+  const pendingPromises = new WeakMap();
+  const processMDX = ({ node }) => {
+    let promise = pendingPromises.get(node);
+    if (!promise) {
+      promise = genMDX({
+        node,
+        options,
+        store,
+        pathPrefix,
+        getNode,
+        getNodes,
+        cache,
+        reporter,
+        actions,
+        schema,
+        ...helpers,
+      });
+      pendingPromises.set(node, promise);
+      promise.then(() => {
+        pendingPromises.delete(node);
+      });
+    }
+    return promise;
+  };
+
+  const tocExtension = schema.buildObjectType({
+    name: `Mdx`,
+    fields: {
+      tableOfContents: {
+        type: `JSON`,
+        args: {
+          maxDepth: {
+            type: `Int`,
+            default: 6,
+          },
+        },
+        async resolve(mdxNode, { maxDepth }) {
+          const { mdast } = await processMDX({ node: mdxNode });
+          const toc = generateTOC(mdast, {
+            maxDepth,
+
+            // override gatsby-plugin-mdx tableOfContents options
+            // to allow Step headers to show in PageTools
+            parents: [
+              (node) => node.type === 'mdxBlockElement' && node.name === 'Step',
+              'root',
+            ],
+          });
+
+          return getTableOfContents(toc.map, {});
+        },
+      },
+    },
+  });
+  createTypes([typeDefs, tocExtension]);
 };
 
 exports.createResolvers = ({ createResolvers }) => {
@@ -360,9 +337,25 @@ exports.createResolvers = ({ createResolvers }) => {
             ? source.translationType
             : null,
       },
-      dataSource: {
+      eolDate: {
         resolve: (source) =>
-          hasOwnProperty(source, 'dataSource') ? source.dataSource : null,
+          hasOwnProperty(source, 'eolDate') ? source.eolDate : null,
+      },
+      downloadLink: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'downloadLink') ? source.downloadLink : null,
+      },
+      features: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'features') ? source.features : null,
+      },
+      bugs: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'bugs') ? source.bugs : null,
+      },
+      security: {
+        resolve: (source) =>
+          hasOwnProperty(source, 'security') ? source.security : null,
       },
     },
   });
@@ -373,6 +366,9 @@ exports.onCreatePage = ({ page, actions }) => {
 
   if (page.path.match(/404/)) {
     page.context.layout = 'basic';
+  }
+  if (page.path === '/') {
+    page.context.layout = 'homepage';
   }
 
   if (page.path.match(/404/) && page.path.match(/\/docs\//)) {
@@ -391,36 +387,6 @@ exports.onCreatePage = ({ page, actions }) => {
   }
 
   createPage(page);
-};
-
-const createLocalizedRedirect = ({
-  fromPath,
-  toPath,
-  locales,
-  redirectInBrowser = true,
-  isPermanent = true,
-  createRedirect,
-}) => {
-  // Create redirects for paths with and without a trailing slash
-  const pathWithTrailingSlash = hasTrailingSlash(fromPath)
-    ? fromPath
-    : path.join(fromPath, '/');
-
-  createRedirect({
-    fromPath: pathWithTrailingSlash,
-    toPath: appendTrailingSlash(toPath),
-    isPermanent,
-    redirectInBrowser,
-  });
-
-  locales.forEach((locale) => {
-    createRedirect({
-      fromPath: path.join(`/${locale}`, pathWithTrailingSlash),
-      toPath: appendTrailingSlash(path.join(`/${locale}`, toPath)),
-      isPermanent,
-      redirectInBrowser,
-    });
-  });
 };
 
 const createPageFromNode = (
@@ -486,13 +452,6 @@ const createPageFromNode = (
   }
 };
 
-const TEMPLATES_BY_TYPE = {
-  landingPage: 'landingPage',
-  apiDoc: 'docPage',
-  releaseNote: 'releaseNote',
-  troubleshooting: 'docPage',
-};
-
 const getTemplate = (node) => {
   const {
     frontmatter,
@@ -500,9 +459,6 @@ const getTemplate = (node) => {
   } = node;
 
   switch (true) {
-    case Boolean(frontmatter.type):
-      return { template: TEMPLATES_BY_TYPE[frontmatter.type] };
-
     case /docs\/release-notes\/.*\/index.mdx$/.test(fileRelativePath):
       return {
         template: 'releaseNoteLandingPage',
@@ -511,6 +467,9 @@ const getTemplate = (node) => {
 
     case fileRelativePath.includes('src/content/docs/release-notes'):
       return { template: 'releaseNote' };
+
+    case fileRelativePath.includes('src/content/eol'):
+      return { template: 'eolAnnouncement' };
 
     case fileRelativePath.includes('src/content/whats-new'):
       return { template: 'whatsNew' };
